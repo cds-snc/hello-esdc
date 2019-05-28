@@ -10,7 +10,7 @@
     - WebWxT (where we'll build our sample WxT frontend)
 - test (for tests - may move to sub-project folders?)
 
-## Dockerfiles
+## Docker
 There is a Dockerfile for the HelloESDC.API sub-project that will build a container for the API:
 
 ```
@@ -24,6 +24,13 @@ There are also empty Dockerfiles in the `src/Web/WebSPA` and `src/Web/WebWxT` fo
 There is a basic docker-compose.yml file at the root that will bring up the api and a postgres database. This is just taken from some example code (see References below), we don't have to stick with Postgres. 
 
 There currently is no interaction between the containers, just sample code at the moment.
+
+## Todo
+There are quite a few pieces still missing, including:
+- Tests
+- CI
+- Database model/scripts
+- Entity Framework (for db)
 
 ## References
 Medium post example of .net core webapi project with postgresql database:
