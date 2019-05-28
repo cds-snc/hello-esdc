@@ -25,6 +25,14 @@ There is a basic docker-compose.yml file at the root that will bring up the api 
 
 There currently is no interaction between the containers, just sample code at the moment.
 
+You can bring up the containers using:
+
+```
+docker-compose up
+```
+
+And the api will be available at: `localhost:8000/api/values`
+
 ## Todo
 There are quite a few pieces still missing, including:
 - Tests
