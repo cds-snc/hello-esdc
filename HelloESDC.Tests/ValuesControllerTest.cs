@@ -19,6 +19,8 @@ namespace HelloESDC.Tests
         #endregion
 
         #region Test Methods
+
+        //Test the Get Methods
         [Fact]
         public void Get_String_Array()
         {
@@ -37,13 +39,17 @@ namespace HelloESDC.Tests
             }
         }
 
+        ///
         [Fact]
         public void Get_By_Id()
         {
             if (null != _controller)
             {
                 //Act
-                var actual = _controller.Get(1);
+                var test = int.MinValue;
+
+                test = 1;
+                var actual = _controller.Get(test);
                 if (null != actual)
                 {
                     var actualValue = actual.Value;
