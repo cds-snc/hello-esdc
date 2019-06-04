@@ -10,7 +10,7 @@ services:
     depends_on:
       - "postgres_image"
     build:
-      context: .
+      context: src/HelloESDC.API
       dockerfile: Dockerfile
     ports:
       - "8000:80"     
