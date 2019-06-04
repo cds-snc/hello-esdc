@@ -20,7 +20,7 @@ docker build -t hello-esdc-api .
 
 There are also empty Dockerfiles in the `src/Web/WebSPA` and `src/Web/WebWxT` folders for future use.
 
-## Docker Compose
+## Running
 There is a basic docker-compose.yml file at the root that will bring up the api and a postgres database. This is just taken from some example code (see References below), we don't have to stick with Postgres. 
 
 There currently is no interaction between the containers, just sample code at the moment.
@@ -28,7 +28,7 @@ There currently is no interaction between the containers, just sample code at th
 You can bring up the containers using:
 
 ```
-docker-compose up
+docker-compose up --build
 ```
 
 And the api will be available at: `localhost:8000/api/values`
