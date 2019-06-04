@@ -18,9 +18,9 @@ fi
 git diff --quiet HEAD database/seed.sql 
 if [ "$?" != 0 ]
 then
-    printf "Migrations file is out-of-date"
+    printf "Migrations SQL script is out-of-date"
     exit 1
 else
-    printf "Migrations are up-to-date"
+    printf "Migrations SQL script is up-to-date"
     exit 0
 fi
