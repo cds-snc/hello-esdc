@@ -27,11 +27,16 @@ There currently is no interaction between the containers, just sample code at th
 
 You can bring up the containers using:
 
-```
-docker-compose up
-```
+1. Navigate to project root in terminal
+1. Generate migration script: `sh util/build_migrations.sh`
+1. Launch Docker containers: `docker-compose up`
 
 And the api will be available at: `localhost:8000/api/values`
+
+To stop and reset:
+
+1. Exit the apps: CTRL+C
+1. Remove volumes: `docker-compose down`
 
 ## Todo
 There are quite a few pieces still missing, including:
