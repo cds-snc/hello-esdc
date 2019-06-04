@@ -10,8 +10,9 @@ namespace HelloESDC.Tests
     public class GreetingControllerTest
     {
         #region Member Variables
-        GreetingController _controller;
-        IGreetingService _service;
+        GreetingController _controller = null;
+        IGreetingService _service = null;
+        Guid _guid = Guid.Empty;
         #endregion
 
         #region Constructor
@@ -19,6 +20,7 @@ namespace HelloESDC.Tests
         {
             _service = new GreetingServiceFake();
             _controller = new GreetingController(_service);
+            _guid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
         }
         #endregion
 
@@ -60,10 +62,10 @@ namespace HelloESDC.Tests
         public void GetById_ExistingGuidPassed_ReturnsOkResult()
         {
             // Arrange
-            var testGuid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
+            var testGuid = _guid;
 
             // Act
-            var okResult = _controller.Get(testGuid);
+            var okResult = _controller.Get(_guid);
 
             // Assert
             Assert.IsType<OkObjectResult>(okResult.Result);
@@ -73,7 +75,7 @@ namespace HelloESDC.Tests
         public void GetById_ExistingGuidPassed_ReturnsRightItem()
         {
             // Arrange
-            var testGuid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
+            var testGuid = _guid;
 
             // Act
             var okResult = _controller.Get(testGuid).Result as OkObjectResult;
@@ -159,7 +161,7 @@ namespace HelloESDC.Tests
         public void Remove_ExistingGuidPassed_ReturnsOkResult()
         {
             // Arrange
-            var existingGuid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
+            var existingGuid = _guid;
 
             // Act
             var okResponse = _controller.Remove(existingGuid);
@@ -171,7 +173,7 @@ namespace HelloESDC.Tests
         public void Remove_ExistingGuidPassed_RemovesOneItem()
         {
             // Arrange
-            var existingGuid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
+            var existingGuid = _guid;
 
             // Act
             var okResponse = _controller.Remove(existingGuid);
