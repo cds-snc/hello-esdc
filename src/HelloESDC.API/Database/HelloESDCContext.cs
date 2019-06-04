@@ -13,5 +13,10 @@ namespace HelloESDC.API.Database
         { 
             optionsBuilder.UseNpgsql(System.Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Greeting>().HasIndex(g=>g.Name).IsUnique();
+        }
     }
 }
