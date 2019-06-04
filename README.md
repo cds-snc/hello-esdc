@@ -42,8 +42,6 @@ To stop and reset:
 There are quite a few pieces still missing, including:
 - Tests
 - CI
-- Database model/scripts
-- Entity Framework (for db)
 
 ## References
 Medium post example of .net core webapi project with postgresql database:
