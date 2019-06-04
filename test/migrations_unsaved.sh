@@ -15,7 +15,7 @@ then
 fi
 
 # If migrations are out-of-date, this makes $? a non-zero value
-git diff-index --quiet HEAD database/seed.sql 
+git diff --quiet HEAD database/seed.sql 
 if [ "$?" != 0 ]
 then
     printf "Migrations file is out-of-date"
