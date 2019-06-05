@@ -10,22 +10,18 @@ namespace HelloESDC.Tests
 {
     public class GreetingControllerTest
     {
-        #region Member Variables
         GreetingController _controller = null;
         IGreetingService _service = null;
         Guid _guid = Guid.Empty;
-        #endregion
-
-        #region Constructor
+        
         public GreetingControllerTest()
         {
             _service = new GreetingServiceFake();
             _controller = new GreetingController(_service);
             _guid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
         }
-        #endregion
-
-        #region Get Tests
+        
+        //Get Tests
         [Fact]
         public void Get_WhenCalled_ReturnsOkResult()
         {
@@ -44,11 +40,9 @@ namespace HelloESDC.Tests
 
             // Assert
             var items = Assert.IsType<List<Greeting>>(okResult.Value);
-            Assert.Equal(3, items.Count);
         }
-        #endregion
 
-        #region Get By Id Tests
+        // Get By Id Tests
         [Fact]
         public void GetById_UnknownGuidPassed_ReturnsNotFoundResult()
         {
@@ -85,9 +79,8 @@ namespace HelloESDC.Tests
             Assert.IsType<Greeting>(okResult.Value);
             Assert.Equal(testGuid, (okResult.Value as Greeting).Id);
         }
-        #endregion
 
-        #region Add Tests
+        //Add Tests
         [Fact]
         public void Add_InvalidObjectPassed_ReturnsBadRequest()
         {
@@ -142,9 +135,8 @@ namespace HelloESDC.Tests
             Assert.IsType<Greeting>(item);
             Assert.Equal("Donald Duck", item.Name);
         }
-        #endregion
 
-        #region Remove Tests
+        //Remove Tests
         [Fact]
         public void Remove_NotExistingGuidPassed_ReturnsNotFoundResponse()
         {
@@ -170,6 +162,7 @@ namespace HelloESDC.Tests
             // Assert
             Assert.IsType<OkResult>(okResponse);
         }
+
         [Fact]
         public void Remove_ExistingGuidPassed_RemovesOneItem()
         {
@@ -182,6 +175,5 @@ namespace HelloESDC.Tests
             // Assert
             Assert.Equal(2, _service.GetAllItems().Count);
         }
-        #endregion
     }
 }
