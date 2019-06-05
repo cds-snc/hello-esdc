@@ -1,3 +1,4 @@
+using HelloESDC.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ public class GreetingController : ControllerBase
 
     // GET api/greeting
     [HttpGet]
-    public ActionResult<IEnumerable<GreetingItem>> Get()
+    public ActionResult<IEnumerable<Greeting>> Get()
     {
         var items = _service.GetAllItems();
         return Ok(items);
@@ -23,7 +24,7 @@ public class GreetingController : ControllerBase
 
     // GET api/greeting/5
     [HttpGet("{id}")]
-    public ActionResult<GreetingItem> Get(Guid id)
+    public ActionResult<Greeting> Get(Guid id)
     {
         var item = _service.GetById(id);
 
@@ -37,7 +38,7 @@ public class GreetingController : ControllerBase
 
     // POST api/greeting
     [HttpPost]
-    public ActionResult Post([FromBody] GreetingItem value)
+    public ActionResult Post([FromBody] Greeting value)
     {
         if (!ModelState.IsValid)
         {

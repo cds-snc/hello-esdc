@@ -1,4 +1,5 @@
-﻿using HelloESDC.API.Entity;
+﻿using HelloESDC.API.Models;
+using HelloESDC.Tests.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace HelloESDC.Tests
             var okResult = _controller.Get().Result as OkObjectResult;
 
             // Assert
-            var items = Assert.IsType<List<GreetingItem>>(okResult.Value);
+            var items = Assert.IsType<List<Greeting>>(okResult.Value);
             Assert.Equal(3, items.Count);
         }
         #endregion
@@ -81,8 +82,8 @@ namespace HelloESDC.Tests
             var okResult = _controller.Get(testGuid).Result as OkObjectResult;
 
             // Assert
-            Assert.IsType<GreetingItem>(okResult.Value);
-            Assert.Equal(testGuid, (okResult.Value as GreetingItem).Id);
+            Assert.IsType<Greeting>(okResult.Value);
+            Assert.Equal(testGuid, (okResult.Value as Greeting).Id);
         }
         #endregion
 
@@ -91,7 +92,7 @@ namespace HelloESDC.Tests
         public void Add_InvalidObjectPassed_ReturnsBadRequest()
         {
             // Arrange
-            var nameMissingItem = new GreetingItem()
+            var nameMissingItem = new Greeting()
             {
                 Message = "Not real"
             };
@@ -109,7 +110,7 @@ namespace HelloESDC.Tests
         public void Add_ValidObjectPassed_ReturnsCreatedResponse()
         {
             // Arrange
-            GreetingItem testItem = new GreetingItem()
+            Greeting testItem = new Greeting()
             {
                 Name = "Donald Duck",
                 Message = "He is one funny duck!"
@@ -127,7 +128,7 @@ namespace HelloESDC.Tests
         public void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             // Arrange
-            var testItem = new GreetingItem()
+            var testItem = new Greeting()
             {
                 Name = "Donald Duck",
                 Message = "He is one funny duck!"
@@ -135,10 +136,10 @@ namespace HelloESDC.Tests
 
             // Act
             var createdResponse = _controller.Post(testItem) as CreatedAtActionResult;
-            var item = createdResponse.Value as GreetingItem;
+            var item = createdResponse.Value as Greeting;
 
             // Assert
-            Assert.IsType<GreetingItem>(item);
+            Assert.IsType<Greeting>(item);
             Assert.Equal("Donald Duck", item.Name);
         }
         #endregion
