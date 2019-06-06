@@ -1,6 +1,12 @@
 trigger:
 - master
 
+pr:
+  autoCancel: true # Cancels a PR build if a new commit comes in on the same branch
+  branches:
+    include:
+      - '*'
+
 pool:
   vmImage: 'ubuntu-latest'
 
