@@ -31,7 +31,7 @@ jobs:
 - job: BuildAndPushImage
   displayName: Build and Push image
   dependsOn: BuildAndTest
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   pool:
     vmImage: 'ubuntu-latest'
@@ -46,4 +46,5 @@ jobs:
     inputs:
       command: buildAndPush
       repository: cdssnc/hello-esdc-api
+      tags: latest
       Dockerfile: src/HelloESDC.API/Dockerfile
