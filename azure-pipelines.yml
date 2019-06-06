@@ -12,16 +12,8 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: Docker@2
-  displayName: Login to Container Registry
   inputs:
-    containerRegistry: 'HelloESDCRegistry'
-    command: 'login'
-- task: Docker@2
-  displayName: Build and Push Container
-  inputs:
-    azureSubscription: 'HelloESDCRegistry'
-    containerRegistry: 'HelloESDCRegistry'
-    repository: 'hello-esdc/hello-esdc-api'
+    containerRegistry: 'CDSDockerHub'
+    repository: 'cdssnc'
     command: 'buildAndPush'
     Dockerfile: 'src/HelloESDC.API/Dockerfile'
-    buildContext: 'src/HelloESDC.API'
