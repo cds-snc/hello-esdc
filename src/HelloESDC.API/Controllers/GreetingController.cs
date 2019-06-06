@@ -1,7 +1,7 @@
-using HelloESDC.API.Models;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using HelloESDC.API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
