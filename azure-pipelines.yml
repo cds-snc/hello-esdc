@@ -12,12 +12,6 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: Docker@2
-  displayName: Login to Container Registry
-  inputs:
-    containerRegistry: 'HelloESDCRegistry'
-    command: 'login'
-
-- task: Docker@2
   displayName: Build and Push Container
   inputs:
     containerRegistry: 'HelloESDCRegistry'
