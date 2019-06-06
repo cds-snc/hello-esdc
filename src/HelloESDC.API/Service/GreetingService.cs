@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HelloESDC.Tests.common
+namespace HelloESDC.API.Service
 {
-    public class GreetingServiceFake : IGreetingService
+    public class GreetingService : IGreetingService
     {
         private readonly List<Greeting> _greeting = null;
 
-        public GreetingServiceFake()
+        public GreetingService()
         {
             _greeting = new List<Greeting>()
             {

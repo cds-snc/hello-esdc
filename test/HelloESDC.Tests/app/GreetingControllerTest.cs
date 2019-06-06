@@ -1,5 +1,5 @@
 ﻿using HelloESDC.API.Models;
-using HelloESDC.Tests.common;
+using HelloESDC.API.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace HelloESDC.Tests.App
 
         public GreetingControllerTest()
         {
-            _service = new GreetingServiceFake();
+            _service = new GreetingService();
             _controller = new GreetingController(_service);
             _guid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
         }
