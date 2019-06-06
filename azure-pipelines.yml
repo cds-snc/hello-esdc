@@ -14,6 +14,11 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'HelloESDCRegistry'
+    command: 'login'
+    
+- task: Docker@2
+  inputs:
+    containerRegistry: 'HelloESDCRegistry'
     repository: 'hello-esdc-api'
     command: 'buildAndPush'
     Dockerfile: 'src/HelloESDC.API/Dockerfile'
