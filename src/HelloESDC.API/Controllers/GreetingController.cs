@@ -3,64 +3,90 @@ using System.Collections.Generic;
 using HelloESDC.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary>
+/// Controller that manages the greeting.
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class GreetingController : ControllerBase
 {
-    private readonly IGreetingService _service;
+    private readonly IGreetingService service;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GreetingController"/> class.
+    /// </summary>
+    /// <param name="service">service reference.</param>
     public GreetingController(IGreetingService service)
     {
-        _service = service;
+        this.service = service;
     }
 
-    // GET api/greeting
+    /// <summary>
+    /// Gets a list of greetings.
+    /// </summary>
+    /// <returns>greeting items.</returns>
+    /// GET api/greeting
     [HttpGet]
     public ActionResult<IEnumerable<Greeting>> Get()
     {
-        var items = _service.GetAllItems();
-        return Ok(items);
+        var items = this.service.GetAllItems();
+        return this.Ok(items);
     }
 
-    // GET api/greeting/5
+    /// <summary>
+    /// Get a greeting by id.
+    /// </summary>
+    /// <param name="id">Guid id.</param>
+    /// <returns>returns a greeting.</returns>
+    /// GET api/greeting/5
     [HttpGet("{id}")]
     public ActionResult<Greeting> Get(Guid id)
     {
-        var item = _service.GetById(id);
+        var item = this.service.GetById(id);
 
         if (item == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        return Ok(item);
+        return this.Ok(item);
     }
 
-    // POST api/greeting
+    /// <summary>
+    /// Posts a new greeting to the service.
+    /// </summary>
+    /// <param name="value">The new greeting.</param>
+    /// <returns>returns a CreatedAtActionResult.</returns>
+    /// POST api/greeting
     [HttpPost]
     public ActionResult Post([FromBody] Greeting value)
     {
-        if (!ModelState.IsValid)
+        if (!this.ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return this.BadRequest(this.ModelState);
         }
 
-        var item = _service.Add(value);
-        return CreatedAtAction("Get", new { id = item.Id }, item);
+        var item = this.service.Add(value);
+        return this.CreatedAtAction("Get", new { id = item.Id }, item);
     }
 
-    // DELETE api/greeting/5
+    /// <summary>
+    /// Removes a greeting.
+    /// </summary>
+    /// <param name="id">The identifier of the greeting.</param>
+    /// <returns>Returns an ok result.</returns>
+    /// DELETE api/greeting/5
     [HttpDelete("{id}")]
     public ActionResult Remove(Guid id)
     {
-        var existingItem = _service.GetById(id);
+        var existingItem = this.service.GetById(id);
 
         if (existingItem == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        _service.Remove(id);
-        return Ok();
+        this.service.Remove(id);
+        return this.Ok();
     }
 }
