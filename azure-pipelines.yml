@@ -12,25 +12,38 @@ pr:
     include:
       - '*'
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+- job: BuildAndTest
+  displayName: Build and test
+  
+  pool:
+    vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
+  variables:
+    buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build $(buildConfiguration)'
-- script: dotnet test
-  displayName: 'Run unit tests'
+  steps:
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'Build $(buildConfiguration)'
+  - script: dotnet test
+    displayName: 'Run unit tests'
 
-- task: Docker@2
-  displayName: Login to Container Registry
-  inputs:
-    command: login
-    containerRegistry: CDSDockerHub
-- task: Docker@2
-  inputs:
-    command: buildAndPush
-    repository: cdssnc/hello-esdc-api
-    Dockerfile: src/HelloESDC.API/Dockerfile
+- job: BuildAndPushImage
+  displayName: Build and Push image
+  dependsOn: BuildAndTest
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  pool:
+    vmImage: 'ubuntu-latest'
+  
+  steps:
+  - task: Docker@2
+    displayName: Login to Container Registry
+    inputs:
+      command: login
+      containerRegistry: CDSDockerHub
+  - task: Docker@2
+    inputs:
+      command: buildAndPush
+      repository: cdssnc/hello-esdc-api
+      Dockerfile: src/HelloESDC.API/Dockerfile
