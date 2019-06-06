@@ -11,7 +11,7 @@ namespace HelloESDC.API.Migrations
                 columns: table => new
                 {
                     Name = table.Column<string>(nullable: false),
-                    Message = table.Column<string>(nullable: true)
+                    Message = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {

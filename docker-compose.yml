@@ -10,10 +10,12 @@ services:
     depends_on:
       - "postgres_image"
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./src/HelloESDC.API
+      dockerfile: Dockerfile.development
     ports:
-      - "8000:80"     
+      - "5000:5000"
+    volumes:
+      - ./src/HelloESDC.API:/app
     environment:
       DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=helloesdc;username=helloesdc;password=helloesdc"
     networks:
