@@ -10,3 +10,11 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'HelloESDCRegistry'
+    repository: 'hello-esdc-api'
+    command: 'buildAndPush'
+    Dockerfile: 'src/HelloESDC.API/Dockerfile'
+    buildContext: 'src/HelloESDC.API'
