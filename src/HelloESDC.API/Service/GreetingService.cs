@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HelloESDC.API.Database;
 using HelloESDC.API.Models;
 
 namespace HelloESDC.API.Service
@@ -11,31 +12,31 @@ namespace HelloESDC.API.Service
     /// </summary>
     public class GreetingService : IGreetingService
     {
-        private readonly List<Greeting> greetingList = null;
+        private readonly HelloESDCContext context;
 
         /// <summary>
         ///  Initializes a new instance of the <see cref="GreetingService"/> class.
         /// </summary>
-        public GreetingService()
+        public GreetingService(HelloESDCContext helloContext)
         {
-            this.greetingList = new List<Greeting>()
+            this.context = helloContext;
+
+            if (this.context.Greetings.Count() == 0)
             {
-                new Greeting()
+                this.context.Greetings.Add(new Greeting
                 {
-                    Id = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200"),
-                    Name = "Orange Juice", Message = "Message 1",
-                },
-                new Greeting()
+                    Id = Guid.NewGuid(),
+                    Name = "Hello ESDC",
+                    Message = "Hola!",
+                });
+                this.context.Greetings.Add(new Greeting
                 {
-                    Id = new Guid("815accac-fd5b-478a-a9d6-f171a2f6ae7f"),
-                    Name = "Diary Milk", Message = "Message 2",
-                },
-                new Greeting()
-                {
-                    Id = new Guid("33704c4a-5b87-464c-bfb6-51971b4d18ad"),
-                    Name = "Frozen Pizza", Message = "Message 3",
-                },
-            };
+                    Id = Guid.NewGuid(),
+                    Name = "Hello World",
+                    Message = "Huzzah!",
+                });
+                this.context.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -44,19 +45,7 @@ namespace HelloESDC.API.Service
         /// <returns>Returns a list of greetings.</returns>
         public List<Greeting> GetAllItems()
         {
-            return this.greetingList;
-        }
-
-        /// <summary>
-        /// Adds a greeting.
-        /// </summary>
-        /// <param name="item">The new greeting.</param>
-        /// <returns>Returns a greeting.</returns>
-        public Greeting Add(Greeting item)
-        {
-            item.Id = Guid.NewGuid();
-            this.greetingList.Add(item);
-            return item;
+            return this.context.Greetings.ToList();
         }
 
         /// <summary>
@@ -66,18 +55,10 @@ namespace HelloESDC.API.Service
         /// <returns>Returns a greeting.</returns>
         public Greeting GetById(Guid id)
         {
-            return this.greetingList.Where(a => a.Id == id)
-                .FirstOrDefault();
-        }
+            return null;
 
-        /// <summary>
-        /// Removes a greeting.
-        /// </summary>
-        /// <param name="id">The unique identifier.</param>
-        public void Remove(Guid id)
-        {
-            var existing = this.greetingList.First(a => a.Id == id);
-            this.greetingList.Remove(existing);
+            // return this.context.Where(a => a.Id == id)
+            //    .FirstOrDefault();
         }
     }
 }

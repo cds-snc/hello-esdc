@@ -13,6 +13,7 @@ namespace HelloESDC.Tests.App
     /// </summary>
     public class GreetingControllerTest
     {
+        /* 
         GreetingController controller = null;
         IGreetingService service = null;
         Guid guid = Guid.Empty;
@@ -211,5 +212,6 @@ namespace HelloESDC.Tests.App
             // Assert
             Assert.Equal(2, this.service.GetAllItems().Count);
         }
+        */
     }
 }
