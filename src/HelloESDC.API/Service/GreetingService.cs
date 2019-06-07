@@ -55,10 +55,16 @@ namespace HelloESDC.API.Service
         /// <returns>Returns a greeting.</returns>
         public Greeting GetById(Guid id)
         {
-            return null;
+            return this.context.Greetings.Find(id);
+        }
 
-            // return this.context.Where(a => a.Id == id)
-            //    .FirstOrDefault();
+        public Greeting GetRandom()
+        {
+            var random = new Random();
+            var greetings = this.GetAllItems();
+            int index = random.Next(greetings.Count);
+
+            return greetings[index];
         }
     }
 }
