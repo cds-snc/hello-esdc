@@ -15,12 +15,12 @@ namespace HelloESDC.Tests.App
     /// <summary>
     /// The greeting controller test repository.
     /// </summary>
-    public class GreetingControllerTest
+    public class GreetingServiceTest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GreetingControllerTest"/> class.
+        /// Initializes a new instance of the <see cref="GreetingServiceTest"/> class.
         /// </summary>
-        public GreetingControllerTest()
+        public GreetingServiceTest()
         {
            
         }
