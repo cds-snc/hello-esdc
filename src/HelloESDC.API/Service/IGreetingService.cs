@@ -19,4 +19,6 @@ public interface IGreetingService
     /// <param name="id">The unique identifier.</param>
     /// <returns>Returns a greeting.</returns>
     Greeting GetById(Guid id);
+
+    Greeting GetRandom();
 }
