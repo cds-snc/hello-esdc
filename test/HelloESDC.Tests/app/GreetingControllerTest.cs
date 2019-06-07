@@ -1,8 +1,12 @@
-﻿using HelloESDC.API.Models;
+﻿using HelloESDC.API.Database;
+using HelloESDC.API.Models;
 using HelloESDC.API.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -13,34 +17,65 @@ namespace HelloESDC.Tests.App
     /// </summary>
     public class GreetingControllerTest
     {
-        /* 
-        GreetingController controller = null;
-        IGreetingService service = null;
-        Guid guid = Guid.Empty;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GreetingControllerTest"/> class.
         /// </summary>
         public GreetingControllerTest()
         {
-            this.service = new GreetingService();
-            this.controller = new GreetingController(this.service);
-            this.guid = new Guid("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200");
+           
         }
-
+                
         /// <summary>
-        /// Test the ok result for the get result.
+        /// Test the that all items are returned.
         /// </summary>
         [Fact]
-        public void Get_WhenCalled_ReturnsOkResult()
+        public void Get_WhenCalled_ReturnsAllItems()
         {
+            //setup
+            var data = new List<Greeting>
+            {
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 1",
+                    Message = "Test 1",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 2",
+                    Message = "Test 2",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 3",
+                    Message = "Test 3",
+                },
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Greeting>>();
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var mockContext = new Mock<HelloESDCContext>();
+            mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
+
+            var service = new GreetingService(mockContext.Object);
+
             // Act
-            var okResult = this.controller.Get();
+            var greetings = service.GetAllItems();
 
             // Assert
-            Assert.IsType<OkObjectResult>(okResult.Result);
+            Assert.Equal(3, greetings.Count);
+            Assert.Equal("Name 1", greetings[0].Name);
+            Assert.Equal("Name 2", greetings[1].Name);
+            Assert.Equal("Name 3", greetings[2].Name);            
         }
 
+        /*
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>

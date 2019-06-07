@@ -12,7 +12,7 @@ namespace HelloESDC.API.Database
         /// <summary>
         /// Gets or sets the greeting db context.
         /// </summary>
-        public DbSet<Greeting> Greetings { get; set; }
+        public virtual DbSet<Greeting> Greetings { get; set; }
 
         /// <summary>
         /// Mechanism to configure the db context options.
