@@ -8,7 +8,7 @@ services:
   hello-esdc-api:
     image: hello-esdc-api:latest
     depends_on:
-      - "postgres_image"
+      - "postgres"
     build:
       context: ./src/HelloESDC.API
       dockerfile: Dockerfile.development
@@ -17,22 +17,42 @@ services:
     volumes:
       - ./src/HelloESDC.API:/app
     environment:
-      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=helloesdc;username=helloesdc;password=helloesdc"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=helloesdc;username=helloesdc;password=helloesdc"
     networks:
       - hello-esdc-dev  
   
-  postgres_image:
+  postgres:
     image: postgres:latest
     ports:
       - "5432:5432"
     restart: always
     volumes:
       - ./database/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - postgres:/data/postgres
     environment:
       POSTGRES_USER: "helloesdc"
       POSTGRES_PASSWORD: "helloesdc"
       POSTGRES_DB: "helloesdc"
+      PGDATA: /data/postgres
     networks:
       - hello-esdc-dev
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    depends_on:
+      - "postgres"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@cds-snc.ca}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - hello-esdc-dev
+
 volumes:
-  db_volume:
+  postgres:
+  pgadmin:
