@@ -1,0 +1,4 @@
+FROM microsoft/dotnet:2.2-sdk AS build
+WORKDIR /app
+
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5000"]
