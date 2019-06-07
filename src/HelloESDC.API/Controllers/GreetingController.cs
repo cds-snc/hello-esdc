@@ -51,4 +51,22 @@ public class GreetingController : ControllerBase
 
         return this.Ok(item);
     }
+
+    /// <summary>
+    /// Get a random greeting.
+    /// </summary>
+    /// <returns>returns a greeting.</returns>
+    /// GET api/greeting/random
+    [HttpGet("random")]
+    public ActionResult<Greeting> Random()
+    {
+        var item = this.service.GetRandom();
+
+        if (item == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(item);
+    }
 }
