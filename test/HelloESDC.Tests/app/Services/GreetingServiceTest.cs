@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace HelloESDC.Tests.App
+namespace HelloESDC.Tests.App.Services
 {
     /// <summary>
     /// The greeting controller test repository.
