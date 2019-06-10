@@ -30,7 +30,7 @@ namespace HelloESDC.Tests.App.Services
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
-        public void Get_WhenCalled_ReturnsAllItems()
+        public void GetAllItems_WhenCalled_ReturnsAllItems()
         {
             //setup
             var data = new List<Greeting>
@@ -72,6 +72,8 @@ namespace HelloESDC.Tests.App.Services
             // Assert
             greetings.Should().BeEquivalentTo(data);
         }
+
+
 
         /*
         /// <summary>
