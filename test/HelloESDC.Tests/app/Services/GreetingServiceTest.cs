@@ -25,20 +25,12 @@ namespace HelloESDC.Tests.App.Services
         {
            
         }
-<<<<<<< HEAD:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
-                
-=======
         
->>>>>>> master:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
-<<<<<<< HEAD:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
-        public void Get_WhenCalled_ReturnsAllItems()
-=======
         public void GetAllItems_WhenCalled_ReturnsAllItems()
->>>>>>> master:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
         {
             //setup
             var data = new List<Greeting>
