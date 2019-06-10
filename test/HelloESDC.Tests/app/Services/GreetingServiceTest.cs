@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using FluentAssertions;
 
 namespace HelloESDC.Tests.App.Services
 {
@@ -24,12 +25,20 @@ namespace HelloESDC.Tests.App.Services
         {
            
         }
+<<<<<<< HEAD:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
                 
+=======
+        
+>>>>>>> master:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
+<<<<<<< HEAD:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
         public void Get_WhenCalled_ReturnsAllItems()
+=======
+        public void GetAllItems_WhenCalled_ReturnsAllItems()
+>>>>>>> master:test/HelloESDC.Tests/app/Services/GreetingServiceTest.cs
         {
             //setup
             var data = new List<Greeting>
@@ -69,11 +78,10 @@ namespace HelloESDC.Tests.App.Services
             var greetings = service.GetAllItems();
 
             // Assert
-            Assert.Equal(3, greetings.Count);
-            Assert.Equal("Name 1", greetings[0].Name);
-            Assert.Equal("Name 2", greetings[1].Name);
-            Assert.Equal("Name 3", greetings[2].Name);            
+            greetings.Should().BeEquivalentTo(data);
         }
+
+
 
         /*
         /// <summary>
