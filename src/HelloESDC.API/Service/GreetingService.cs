@@ -17,6 +17,7 @@ namespace HelloESDC.API.Service
         /// <summary>
         ///  Initializes a new instance of the <see cref="GreetingService"/> class.
         /// </summary>
+        /// <param name="helloContext">The database reference.</param>
         public GreetingService(HelloESDCContext helloContext)
         {
             this.context = helloContext;
