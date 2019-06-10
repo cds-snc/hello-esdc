@@ -1,15 +1,15 @@
-﻿using HelloESDC.API.Database;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using FluentAssertions;
+using HelloESDC.API.Database;
 using HelloESDC.API.Models;
 using HelloESDC.API.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
-using FluentAssertions;
 
 namespace HelloESDC.Tests.App.Services
 {
@@ -23,16 +23,16 @@ namespace HelloESDC.Tests.App.Services
         /// </summary>
         public GreetingServiceTest()
         {
-           
+            ///
         }
-        
+
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
         public void GetAllItems_WhenCalled_ReturnsAllItems()
         {
-            //setup
+            // Arrange
             var data = new List<Greeting>
             {
                 new Greeting
@@ -72,8 +72,6 @@ namespace HelloESDC.Tests.App.Services
             // Assert
             greetings.Should().BeEquivalentTo(data);
         }
-
-
 
         /*
         /// <summary>
