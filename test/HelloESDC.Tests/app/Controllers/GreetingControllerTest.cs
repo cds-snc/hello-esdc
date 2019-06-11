@@ -53,20 +53,25 @@ namespace HelloESDC.Tests.App.Controllers
         public void Get_Specific_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = this.GetFakeGreetings().ElementAt(0);
+            // var expected = this.GetFakeGreetings().ElementAt(0);
+            var expected = new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Hello ESDC",
+                    Message = "Test 1",
+                };
+
             this.mockGreetingService.Setup(x => x.GetById(
                     It.IsAny<Guid>())).Returns(() => expected);
 
-            var controller = new GreetingController(this.mockGreetingService.Object);
-
             // Act
-            var id = expected.Id;
-            var result = controller.Get(id).Result;
+            var controller = new GreetingController(this.mockGreetingService.Object);
+            var result = controller.Get(expected.Id).Result;
 
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-            greeting.Id.Should().Be(id);
+            greeting.Id.Should().Be(expected.Id);
             greeting.Name.Should().Be("Hello ESDC");
         }
 
@@ -77,7 +82,12 @@ namespace HelloESDC.Tests.App.Controllers
         public void Get_Random_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = this.GetFakeGreetings().ElementAt(1);
+            var expected = new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Hello ESDC",
+                    Message = "Test 1",
+                };
             this.mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
 
             var controller = new GreetingController(this.mockGreetingService.Object);
@@ -90,7 +100,7 @@ namespace HelloESDC.Tests.App.Controllers
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
             greeting.Id.Should().Be(id);
-            greeting.Name.Should().Be("Hello World");
+            greeting.Name.Should().Be("Hello ESDC");
         }
 
         private List<Greeting> GetFakeGreetings()
