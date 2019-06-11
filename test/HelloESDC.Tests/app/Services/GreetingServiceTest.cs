@@ -33,37 +33,10 @@ namespace HelloESDC.Tests.App.Services
         public void GetAllItems_WhenCalled_ReturnsAllItems()
         {
             // Arrange
-            var data = new List<Greeting>
-            {
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 1",
-                    Message = "Test 1",
-                },
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 2",
-                    Message = "Test 2",
-                },
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 3",
-                    Message = "Test 3",
-                },
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Greeting>>();
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
+            var data = GetTestList().AsQueryable();
+            var mockSet = GetMockDbSet(data);
             var mockContext = new Mock<HelloESDCContext>();
             mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
-
             var service = new GreetingService(mockContext.Object);
 
             // Act
@@ -73,20 +46,45 @@ namespace HelloESDC.Tests.App.Services
             greetings.Should().BeEquivalentTo(data);
         }
 
-        /*
+
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
         public void Get_WhenCalled_ReturnsAllItems()
         {
-            // Act
-            var okResult = this.controller.Get().Result as OkObjectResult;
+            // Arrange
+            var data = GetTestList().AsQueryable();
+            var mockSet = GetMockDbSet(data);
+            var mockContext = new Mock<HelloESDCContext>();
+            mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
+            var service = new GreetingService(mockContext.Object);
 
-            // Assert
-            var items = Assert.IsType<List<Greeting>>(okResult.Value);
+            // Act
+            var greetings = service.GetAllItems();
+
+            //Assert
+            greetings.Count().Should().Be(3);
         }
 
+        [Fact]
+        public void Get_WhenCalled_ReturnsRandom()
+        {
+            // Arrange
+            var data = GetTestList().AsQueryable();
+            var mockSet = GetMockDbSet(data);
+            var mockContext = new Mock<HelloESDCContext>();
+            mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
+            var service = new GreetingService(mockContext.Object);
+
+            // Act
+            var greeting = service.GetRandom();
+
+            //Assert
+            greeting.Name.Should().Be("Name 1");
+        }
+
+        /*
         /// <summary>
         /// // Tests not found with unknown guid.
         /// </summary>
@@ -246,5 +244,42 @@ namespace HelloESDC.Tests.App.Services
             Assert.Equal(2, this.service.GetAllItems().Count);
         }
         */
+
+        private List<Greeting> GetTestList()
+        {
+            // Arrange
+            var data = new List<Greeting>
+            {
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 1",
+                    Message = "Test 1",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 2",
+                    Message = "Test 2",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 3",
+                    Message = "Test 3",
+                },
+            };
+            return data;
+        }
+
+        private Mock<DbSet<Greeting>> GetMockDbSet(IQueryable<Greeting> data)
+        {
+            var mockSet = new Mock<DbSet<Greeting>>();
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Greeting>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            return mockSet;
+        }
     }
 }
