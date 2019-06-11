@@ -53,7 +53,6 @@ namespace HelloESDC.Tests.App.Controllers
         public void Get_Specific_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            // var expected = this.GetFakeGreetings().ElementAt(0);
             var expected = new Greeting
                 {
                     Id = Guid.NewGuid(),
