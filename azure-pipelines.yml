@@ -31,7 +31,7 @@ jobs:
 - job: BuildAndPushImage
   displayName: Build and Push image
   dependsOn: BuildAndTest
-  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   pool:
     vmImage: 'ubuntu-latest'
