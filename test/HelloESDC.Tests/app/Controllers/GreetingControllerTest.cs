@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using HelloESDC.API.Models;
+using HelloESDC.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

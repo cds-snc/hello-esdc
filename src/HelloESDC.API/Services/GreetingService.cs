@@ -5,7 +5,7 @@ using System.Text;
 using HelloESDC.API.Database;
 using HelloESDC.API.Models;
 
-namespace HelloESDC.API.Service
+namespace HelloESDC.API.Services
 {
     /// <summary>
     /// Implmentation of the Greeting interface.
