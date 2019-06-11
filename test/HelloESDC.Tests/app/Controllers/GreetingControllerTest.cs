@@ -1,35 +1,36 @@
-using HelloESDC.API.Database;
-using HelloESDC.API.Models;
-using HelloESDC.API.Service;
-using HelloESDC.API;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
 using FluentAssertions;
+using HelloESDC.API.Models;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Xunit;
 
 namespace HelloESDC.Tests.App.Controllers
 {
+    /// <summary>
+    /// Class to test the greeting controller
+    /// </summary>
     public class GreetingControllerTest
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GreetingControllerTest"/> class.
+        /// </summary>
         public GreetingControllerTest()
         {
-
         }
 
+        /// <summary>
+        /// Class that tests returns ok, count and name.
+        /// </summary>
         [Fact]
         public void Get_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = GetFakeGreetings();
+            var expected = this.GetFakeGreetings();
             Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
             mockGreetingService.Setup(x => x.GetAllItems()).Returns(() => expected);
-
             var controller = new GreetingController(mockGreetingService.Object);
 
             // Act
@@ -38,23 +39,22 @@ namespace HelloESDC.Tests.App.Controllers
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greetings = okResult.Value.Should().BeAssignableTo<IEnumerable<Greeting>>().Subject;
-            
             greetings.Count().Should().Be(3);
             greetings.ElementAt(0).Name.Should().Be("Hello ESDC");
         }
 
+        /// <summary>
+        /// Tests the expected vs the specific id and name.
+        /// </summary>
         [Fact]
         public void Get_Specific_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = GetFakeGreetings().ElementAt(0);
+            var expected = this.GetFakeGreetings().ElementAt(0);
             Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetById(
-                    It.IsAny<Guid>()
-                )).Returns(() => expected);
-
+            mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => expected);
             var controller = new GreetingController(mockGreetingService.Object);
-            
+
             // Act
             var id = expected.Id;
             var result = controller.Get(id).Result;
@@ -62,19 +62,20 @@ namespace HelloESDC.Tests.App.Controllers
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-
             greeting.Id.Should().Be(id);
             greeting.Name.Should().Be("Hello ESDC");
         }
 
+        /// <summary>
+        /// Class that tests the expected vs the random.
+        /// </summary>
         [Fact]
         public void Get_Random_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = GetFakeGreetings().ElementAt(1);
+            var expected = this.GetFakeGreetings().ElementAt(1);
             Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
             mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
-
             var controller = new GreetingController(mockGreetingService.Object);
 
             // Act
@@ -84,7 +85,6 @@ namespace HelloESDC.Tests.App.Controllers
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-
             greeting.Id.Should().Be(id);
             greeting.Name.Should().Be("Hello World");
         }
@@ -112,6 +112,6 @@ namespace HelloESDC.Tests.App.Controllers
                     Message = "Test 3",
                 },
             };
-        } 
+        }
     }
 }
