@@ -60,8 +60,7 @@ namespace HelloESDC.Tests.App.Controllers
                     Message = "Test 1",
                 };
 
-            this.mockGreetingService.Setup(x => x.GetById(
-                    It.IsAny<Guid>())).Returns(() => expected);
+            this.mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => expected);
 
             // Act
             var controller = new GreetingController(this.mockGreetingService.Object);
@@ -72,6 +71,20 @@ namespace HelloESDC.Tests.App.Controllers
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
             greeting.Id.Should().Be(expected.Id);
             greeting.Name.Should().Be("Hello ESDC");
+        }
+
+        [Fact]
+        public void Get_Specific_NonExistentId_ReturnsNotFound()
+        {
+            // Arrange
+            this.mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => null);
+
+            // Act
+            var controller = new GreetingController(this.mockGreetingService.Object);
+            var result = controller.Get(Guid.NewGuid()).Result;
+
+            // Assert
+            var notFoundResult = result.Should().BeOfType<NotFoundResult>().Subject;
         }
 
         /// <summary>
@@ -87,18 +100,17 @@ namespace HelloESDC.Tests.App.Controllers
                     Name = "Hello ESDC",
                     Message = "Test 1",
                 };
+
             this.mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
 
-            var controller = new GreetingController(this.mockGreetingService.Object);
-
             // Act
-            var id = expected.Id;
+            var controller = new GreetingController(this.mockGreetingService.Object);
             var result = controller.Random().Result;
 
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-            greeting.Id.Should().Be(id);
+            greeting.Id.Should().Be(expected.Id);
             greeting.Name.Should().Be("Hello ESDC");
         }
 
