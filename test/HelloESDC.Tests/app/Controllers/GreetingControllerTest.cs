@@ -14,11 +14,14 @@ namespace HelloESDC.Tests.App.Controllers
     /// </summary>
     public class GreetingControllerTest
     {
+        private readonly Mock<IGreetingService> mockGreetingService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GreetingControllerTest"/> class.
         /// </summary>
         public GreetingControllerTest()
         {
+            this.mockGreetingService = new Mock<IGreetingService>();
         }
 
         /// <summary>
@@ -29,9 +32,9 @@ namespace HelloESDC.Tests.App.Controllers
         {
             // Arrange
             var expected = this.GetFakeGreetings();
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetAllItems()).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            this.mockGreetingService.Setup(x => x.GetAllItems()).Returns(() => expected);
+
+            var controller = new GreetingController(this.mockGreetingService.Object);
 
             // Act
             var result = controller.Get().Result;
@@ -51,9 +54,10 @@ namespace HelloESDC.Tests.App.Controllers
         {
             // Arrange
             var expected = this.GetFakeGreetings().ElementAt(0);
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            this.mockGreetingService.Setup(x => x.GetById(
+                    It.IsAny<Guid>())).Returns(() => expected);
+
+            var controller = new GreetingController(this.mockGreetingService.Object);
 
             // Act
             var id = expected.Id;
@@ -74,9 +78,9 @@ namespace HelloESDC.Tests.App.Controllers
         {
             // Arrange
             var expected = this.GetFakeGreetings().ElementAt(1);
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            this.mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
+
+            var controller = new GreetingController(this.mockGreetingService.Object);
 
             // Act
             var id = expected.Id;
