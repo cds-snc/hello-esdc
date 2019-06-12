@@ -23,7 +23,6 @@ namespace HelloESDC.Tests.App.Services
         /// </summary>
         public GreetingServiceTest()
         {
-            ///
         }
 
         /// <summary>
@@ -33,8 +32,8 @@ namespace HelloESDC.Tests.App.Services
         public void GetAllItems_WhenCalled_ReturnsAllItems()
         {
             // Arrange
-            var data = GetTestList().AsQueryable();
-            var mockSet = GetMockDbSet(data);
+            var data = this.GetTestList();
+            var mockSet = GetQueryableMockDbSet(data);
             var mockContext = new Mock<HelloESDCContext>();
             mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
             var service = new GreetingService(mockContext.Object);
@@ -46,16 +45,15 @@ namespace HelloESDC.Tests.App.Services
             greetings.Should().BeEquivalentTo(data);
         }
 
-
         /// <summary>
         /// Test the that all items are returned.
         /// </summary>
         [Fact]
-        public void Get_WhenCalled_ReturnsAllItems()
+        public void Get_WhenCalled_ReturnsThreeItems()
         {
             // Arrange
-            var data = GetTestList().AsQueryable();
-            var mockSet = GetMockDbSet(data);
+            var data = this.GetTestList();
+            var mockSet = GetQueryableMockDbSet(data);
             var mockContext = new Mock<HelloESDCContext>();
             mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
             var service = new GreetingService(mockContext.Object);
@@ -63,25 +61,49 @@ namespace HelloESDC.Tests.App.Services
             // Act
             var greetings = service.GetAllItems();
 
-            //Assert
+            // Assert
             greetings.Count().Should().Be(3);
         }
 
-        [Fact]
-        public void Get_WhenCalled_ReturnsRandom()
+        private static Mock<DbSet<T>> GetQueryableMockDbSet<T>(List<T> sourceList)
+         where T : class
+        {
+            var queryable = sourceList.AsQueryable();
+
+            var mockSet = new Mock<DbSet<T>>();
+            mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+            return mockSet;
+        }
+
+        private List<Greeting> GetTestList()
         {
             // Arrange
-            var data = GetTestList().AsQueryable();
-            var mockSet = GetMockDbSet(data);
-            var mockContext = new Mock<HelloESDCContext>();
-            mockContext.Setup(c => c.Greetings).Returns(mockSet.Object);
-            var service = new GreetingService(mockContext.Object);
-
-            // Act
-            var greeting = service.GetRandom();
-
-            //Assert
-            greeting.Name.Should().Be("Name 1");
+            var data = new List<Greeting>
+            {
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 1",
+                    Message = "Test 1",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 2",
+                    Message = "Test 2",
+                },
+                new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name 3",
+                    Message = "Test 3",
+                },
+            };
+            return data;
         }
 
         /*
@@ -244,42 +266,5 @@ namespace HelloESDC.Tests.App.Services
             Assert.Equal(2, this.service.GetAllItems().Count);
         }
         */
-
-        private List<Greeting> GetTestList()
-        {
-            // Arrange
-            var data = new List<Greeting>
-            {
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 1",
-                    Message = "Test 1",
-                },
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 2",
-                    Message = "Test 2",
-                },
-                new Greeting
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Name 3",
-                    Message = "Test 3",
-                },
-            };
-            return data;
-        }
-
-        private Mock<DbSet<Greeting>> GetMockDbSet(IQueryable<Greeting> data)
-        {
-            var mockSet = new Mock<DbSet<Greeting>>();
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Greeting>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            return mockSet;
-        }
     }
 }
