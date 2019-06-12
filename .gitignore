@@ -406,3 +406,6 @@ ASALocalRun/
 
 #Visual Studio Code
 .vscode/
+
+**/.terraform/*
+*.tfvars
