@@ -5,7 +5,7 @@ using System.Text;
 using FluentAssertions;
 using HelloESDC.API.Database;
 using HelloESDC.API.Models;
-using HelloESDC.API.Service;
+using HelloESDC.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
