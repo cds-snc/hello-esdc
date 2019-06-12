@@ -11,7 +11,7 @@ using Xunit;
 namespace HelloESDC.Tests.App.Controllers
 {
     /// <summary>
-    /// Class to test the greeting controller
+    /// Class to test the greeting controller.
     /// </summary>
     public class GreetingControllerTest
     {
@@ -74,6 +74,9 @@ namespace HelloESDC.Tests.App.Controllers
             greeting.Name.Should().Be("Hello ESDC");
         }
 
+        /// <summary>
+        /// Tests that a nonexistent id returns a not found.
+        /// </summary>
         [Fact]
         public void Get_Specific_NonExistentId_ReturnsNotFound()
         {
