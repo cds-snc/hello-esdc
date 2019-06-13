@@ -39,6 +39,10 @@ variable log_analytics_workspace_sku {
     default = "PerGB2018"
 }
 
+variable db_name {
+    default = "helloesdcdb"
+}
+
 variable db_admin_login {
   
 }

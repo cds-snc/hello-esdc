@@ -23,7 +23,7 @@ resource "azurerm_postgresql_server" "hello-esdc-db-server" {
 }
 
 resource "azurerm_postgresql_database" "hello-esdc-db-server" {
-  name                = "helloesdcdb"
+  name                = "${var.db_name}"
   resource_group_name = "${azurerm_resource_group.k8s.name}"
   server_name         = "${azurerm_postgresql_server.hello-esdc-db-server.name}"
   charset             = "UTF8"
