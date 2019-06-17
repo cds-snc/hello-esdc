@@ -26,12 +26,12 @@ services:
     depends_on:
       - "hello-esdc-api"
     build:
-      context: ./src/Web/WebSPA/spa-vue
+      context: ./src/Web/WebSPA
       dockerfile: Dockerfile.development
     ports:
       - "3000:3000"
     volumes:
-      - ./src/Web/WebSPA/spa-vue:/app
+      - ./src/Web/WebSPA:/app
       - /app/node_modules
     environment:
       - PORT=3000
