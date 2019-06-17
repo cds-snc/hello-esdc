@@ -1,14 +1,23 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ name }}</h1>
+    {{ message }}
   </div>
 </template>
 
 <script>
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String
+  data () {
+    return {
+      name: null,
+      message: null
+    }
+  },
+  mounted () {
+    this.$http
+      .get('/api/greeting/random')
+      .then(response => (this.name = response.data.name, this.message = response.data.message))
   }
 };
 </script>
