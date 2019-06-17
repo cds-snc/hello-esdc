@@ -21,6 +21,20 @@ services:
     networks:
       - hello-esdc-dev  
   
+  web:
+    image: hello-esdc-vue:latest
+    depends_on:
+      - "hello-esdc-api"
+    build:
+      context: ./src/Web/WebSPA/spa-vue
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src/Web/WebSPA/spa-vue
+    networks:
+      - hello-esdc-dev
+
   postgres:
     image: postgres:latest
     ports:
