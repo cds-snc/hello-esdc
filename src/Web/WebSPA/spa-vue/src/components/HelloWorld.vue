@@ -8,21 +8,24 @@
 <script>
 export default {
   name: "HelloWorld",
-  data () {
+  data() {
     return {
       name: null,
       message: null
-    }
+    };
   },
-  mounted () {
+  mounted() {
     this.$http
-      .get('/api/greeting/random')
-      .then(response => (this.name = response.data.name, this.message = response.data.message))
+      .get("/api/greeting/random")
+      .then(
+        response => (
+          (this.name = response.data.name),
+          (this.message = response.data.message)
+        )
+      );
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
