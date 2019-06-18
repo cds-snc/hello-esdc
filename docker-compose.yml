@@ -20,7 +20,38 @@ services:
       DB_CONNECTION_STRING: "host=postgres;port=5432;database=helloesdc;username=helloesdc;password=helloesdc"
     networks:
       - hello-esdc-dev  
-  
+
+  client:
+    image: hello-esdc-vue:latest
+    depends_on:
+      - "hello-esdc-api"
+    build:
+      context: ./src/Web/WebSPA
+      dockerfile: Dockerfile.development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/Web/WebSPA:/app
+      - /app/node_modules
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+    networks:
+      - hello-esdc-dev
+
+  web:
+    image: nginx:alpine
+    depends_on:
+      - "client"
+      - "hello-esdc-api"
+    command: [nginx-debug, '-g', 'daemon off;']
+    ports:
+      - '80:80'
+    volumes:
+      - ./http/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - hello-esdc-dev
+
   postgres:
     image: postgres:latest
     ports:
