@@ -6,12 +6,34 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>spa-vue</title>
+    <script src="helper/startswith.js" type="text/javascript"></script>
+    <!--  CDTS implementation -->
+    <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_30/cdts/compiled/soyutils.js"></script>
+    <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_30/cdts/compiled/wet-en.js"></script>
+
+    <script type="text/javascript">
+      document.write(wet.builder.refTop({
+        cdnEnv: 'prod',
+        subTheme: 'gcweb',
+        jqueryEnv: 'external',
+        localPath: '',
+        isApplication: true
+      }));
+    </script>
+
+    <script type="text/javascript" src="helper/wet.js"></script>
   </head>
   <body>
+    <div id="def-top"></div>
     <noscript>
       <strong>We're sorry but spa-vue doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <main id="wb-cont" role="main" property="mainContentOfPage" class="container">
+      <div id="app"></div>
+      <!-- built files will be auto injected -->
+
+      <div id="def-preFooter"></div>
+    </main>
+    <div id="def-footer"></div>
   </body>
 </html>
