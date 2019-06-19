@@ -1,7 +1,7 @@
 resource "azurerm_postgresql_server" "hello-esdc-db-server" {
   name                = "hello-esdc-db-server-1"
-  location            = "${azurerm_resource_group.k8s.location}"
-  resource_group_name = "${azurerm_resource_group.k8s.name}"
+  location            = "${azurerm_resource_group.main.location}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
 
   sku {
     name     = "B_Gen5_2"
@@ -24,7 +24,7 @@ resource "azurerm_postgresql_server" "hello-esdc-db-server" {
 
 resource "azurerm_postgresql_database" "hello-esdc-db-server" {
   name                = "${var.db_name}"
-  resource_group_name = "${azurerm_resource_group.k8s.name}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
   server_name         = "${azurerm_postgresql_server.hello-esdc-db-server.name}"
   charset             = "UTF8"
   collation           = "English_United States.1252"

@@ -1,5 +1,6 @@
-variable "client_id" {}
-variable "client_secret" {}
+variable "environment" {
+    default = "development"
+}
 
 variable "agent_count" {
     default = 3
@@ -10,15 +11,15 @@ variable "ssh_public_key" {
 }
 
 variable "dns_prefix" {
-    default = "hello-esdc-k8stest"
+    default = "hello-esdc"
 }
 
 variable cluster_name {
-    default = "hello-esdc-k8stest"
+    default = "hello-esdc-k8s"
 }
 
 variable resource_group_name {
-    default = "hello-esdc-k8stest"
+    default = "hello-esdc-k8s"
 }
 
 variable location {
@@ -51,3 +52,14 @@ variable "db_admin_password" {
   
 }
 
+/*
+ * K8S
+ */
+
+variable "k8s_kube_config" {
+  default = "./.kube/config"
+}
+
+variable "k8s_helm_home" {
+  default = "./.helm"
+}
