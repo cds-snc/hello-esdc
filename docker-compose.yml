@@ -6,7 +6,8 @@ networks:
 
 services:
   hello-esdc-api:
-    image: hello-esdc-api:latest
+    # image: hello-esdc-api:latest
+    image: ${IMAGE_REGISTRY-local}/hello-esdc-api:${IMAGE_LABEL-dev}
     depends_on:
       - "postgres"
     build:
@@ -22,7 +23,8 @@ services:
       - hello-esdc-dev  
 
   client:
-    image: hello-esdc-vue:latest
+    # image: hello-esdc-vue:latest
+    image: ${IMAGE_REGISTRY-local}/hello-esdc-frontend:${IMAGE_LABEL-dev}
     depends_on:
       - "hello-esdc-api"
     build:

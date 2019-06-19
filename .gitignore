@@ -406,3 +406,15 @@ ASALocalRun/
 
 #Visual Studio Code
 .vscode/
+
+**/.terraform/*
+*.tfvars
+
+.kube
+.helm
+
+/infrastructure/.terraform
+/infrastructure/*.lock.info
+/infrastructure/terraform.tfstate*
+/infrastructure/terraform.tfvars
+/app.values.yaml
