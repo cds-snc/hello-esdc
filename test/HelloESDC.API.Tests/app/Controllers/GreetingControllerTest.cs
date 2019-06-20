@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using HelloESDC.API.Models;
+using HelloESDC.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -10,15 +11,18 @@ using Xunit;
 namespace HelloESDC.Tests.App.Controllers
 {
     /// <summary>
-    /// Class to test the greeting controller
+    /// Class to test the greeting controller.
     /// </summary>
     public class GreetingControllerTest
     {
+        private readonly Mock<IGreetingService> mockGreetingService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GreetingControllerTest"/> class.
         /// </summary>
         public GreetingControllerTest()
         {
+            this.mockGreetingService = new Mock<IGreetingService>();
         }
 
         /// <summary>
@@ -29,9 +33,9 @@ namespace HelloESDC.Tests.App.Controllers
         {
             // Arrange
             var expected = this.GetFakeGreetings();
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetAllItems()).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            this.mockGreetingService.Setup(x => x.GetAllItems()).Returns(() => expected);
+
+            var controller = new GreetingController(this.mockGreetingService.Object);
 
             // Act
             var result = controller.Get().Result;
@@ -50,20 +54,41 @@ namespace HelloESDC.Tests.App.Controllers
         public void Get_Specific_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = this.GetFakeGreetings().ElementAt(0);
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            var expected = new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Hello ESDC",
+                    Message = "Test 1",
+                };
+
+            this.mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => expected);
 
             // Act
-            var id = expected.Id;
-            var result = controller.Get(id).Result;
+            var controller = new GreetingController(this.mockGreetingService.Object);
+            var result = controller.Get(expected.Id).Result;
 
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-            greeting.Id.Should().Be(id);
+            greeting.Id.Should().Be(expected.Id);
             greeting.Name.Should().Be("Hello ESDC");
+        }
+
+        /// <summary>
+        /// Tests that a nonexistent id returns a not found.
+        /// </summary>
+        [Fact]
+        public void Get_Specific_NonExistentId_ReturnsNotFound()
+        {
+            // Arrange
+            this.mockGreetingService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(() => null);
+
+            // Act
+            var controller = new GreetingController(this.mockGreetingService.Object);
+            var result = controller.Get(Guid.NewGuid()).Result;
+
+            // Assert
+            var notFoundResult = result.Should().BeOfType<NotFoundResult>().Subject;
         }
 
         /// <summary>
@@ -73,20 +98,24 @@ namespace HelloESDC.Tests.App.Controllers
         public void Get_Random_WhenCalled_ReturnsOkResult()
         {
             // Arrange
-            var expected = this.GetFakeGreetings().ElementAt(1);
-            Mock<IGreetingService> mockGreetingService = new Mock<IGreetingService>();
-            mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
-            var controller = new GreetingController(mockGreetingService.Object);
+            var expected = new Greeting
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Hello ESDC",
+                    Message = "Test 1",
+                };
+
+            this.mockGreetingService.Setup(x => x.GetRandom()).Returns(() => expected);
 
             // Act
-            var id = expected.Id;
+            var controller = new GreetingController(this.mockGreetingService.Object);
             var result = controller.Random().Result;
 
             // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             var greeting = okResult.Value.Should().BeAssignableTo<Greeting>().Subject;
-            greeting.Id.Should().Be(id);
-            greeting.Name.Should().Be("Hello World");
+            greeting.Id.Should().Be(expected.Id);
+            greeting.Name.Should().Be("Hello ESDC");
         }
 
         private List<Greeting> GetFakeGreetings()

@@ -9,12 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloESDC.API", "src\HelloE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C7736749-03CD-442D-A163-D9A9095E3FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloESDC.Tests", "test\HelloESDC.Tests\HelloESDC.Tests.csproj", "{C9C6AD4A-7FB6-4F3F-B8D6-97F3DA70A548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloESDC.API.Tests", "test\HelloESDC.API.Tests\HelloESDC.API.Tests.csproj", "{C9C6AD4A-7FB6-4F3F-B8D6-97F3DA70A548}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25C140E1-53E4-4569-B2E6-F82D16BF7C06}"
-	ProjectSection(SolutionItems) = preProject
-		StyleCopRules.ruleset = StyleCopRules.ruleset
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
