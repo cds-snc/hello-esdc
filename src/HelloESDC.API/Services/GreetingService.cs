@@ -27,14 +27,14 @@ namespace HelloESDC.API.Services
                 this.context.Greetings.Add(new Greeting
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Hello ESDC",
-                    Message = "Hola!",
+                    Name = "Hello in English",
+                    Message = "Hello World!",
                 });
                 this.context.Greetings.Add(new Greeting
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Hello World",
-                    Message = "Huzzah!",
+                    Name = "Bonjour en français",
+                    Message = "Bonjour le monde!",
                 });
                 this.context.SaveChanges();
             }
